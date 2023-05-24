@@ -1,136 +1,136 @@
-import React, {useState}  from 'react';
-import { Text, View, Image, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, StatusBar} from 'react-native';
+import React, {useState, Component, useEffect} from 'react';
+import { Text, View, Image, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, StatusBar, ImageBackground} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {NavigationContainer} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import Check from './checkIcon';
 
 export default function Selection(){
+    const navigation = useNavigation();
+    return (
     
-  return (
+        <SafeAreaView style={styles.container}>
+            <StatusBar backgroundColor="#05022E" barStyle="ligth-content"/>
+
+            <ScrollView showsVerticalScrollIndicator={true} overScrollMode={'auto'}>
+                <View style={styles.text}>
+                    <Text style={styles.text}>Que tipo de trabalho você procura?</Text>
+                </View>
+
+                <View style={styles.containerImage} >
     
-    <SafeAreaView style={styles.container}>
-    <StatusBar backgroundColor="#05022E" barStyle="ligth-content"/>
-    <ScrollView 
-    showsVerticalScrollIndicator={true}
-    overScrollMode={'auto'}>
-   
-        <View style={styles.text}>
-            <Text style={styles.text}>Que tipo de trabalho você procura?</Text>
-        </View>
+                    <View style={styles.iconCheck}>
+                        <Image
+                        source={require('../../assets/eletricista.jpg')}
+                        style={styles.image}
+                        />
+                        <Check/>     
+                    </View>
 
-        <View style={styles.containerImage}>
-            <TouchableOpacity>
-                <Image
-                source={require('../../assets/eletricista.jpg')}
-                style={styles.image}
-                resizeMode='cover'
-                />
-            </TouchableOpacity>
+                    <View style={styles.iconCheck}>
+                        <Image
+                        source={require('../../assets/montador.jpg')}
+                        style={styles.image}
+                        />
+                        <Check/>
+                    </View>
+                    
+                    <View style={styles.iconCheck}>
+                        <Image
+                        source={require('../../assets/faxineiro.jpg')}
+                        style={styles.image}
+                        />
+                        <Check />
+                    </View>
 
-            <TouchableOpacity>
-                <Image
-                source={require('../../assets/montador.jpg')}
-                style={styles.image}
-                resizeMode='cover'
-                />
-            </TouchableOpacity>
+                    <View style={styles.iconCheck}>
+                        <Image
+                        source={require('../../assets/pintor.jpg')}
+                        style={styles.image}
+                        />
+                        <Check/>
+                    </View>
 
-            <TouchableOpacity>
-                <Image
-                source={require('../../assets/faxineiro.jpg')}
-                style={styles.image}
-                resizeMode='cover'
-                />
-            </TouchableOpacity>
+                    <View style={styles.iconCheck}>
+                        <Image
+                        source={require('../../assets/pedreiro.jpg')}
+                        style={styles.image}
+                        />
+                        <Check/>
+                    </View>
 
-            <TouchableOpacity>
-                <Image
-                source={require('../../assets/pintor.jpg')}
-                style={styles.image}
-                resizeMode='cover'
-                />
-            </TouchableOpacity>
+                </View>
+            </ScrollView>
 
-            <TouchableOpacity>
-                <Image
-                source={require('../../assets/pedreiro.jpg')}
-                style={styles.image}
-                resizeMode='cover'
-                />
-            </TouchableOpacity>
-        </View>
-
-    </ScrollView>
-
-        <ScrollView
-        scrollEnabled={false} 
-        style={styles.scroll}>
-
-            <View style={styles.containerButton}>
-                <TouchableOpacity 
-                style={styles.buttonConclude}
-                onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.buttonConcludeText}>Concluir</Text>
-                </TouchableOpacity>
-            </View>
-
-        </ScrollView>
-
-    </SafeAreaView>
-   
-  );
+            <ScrollView scrollEnabled={false} style={styles.scroll}>
+                <View style={styles.containerButton}>
+                    <TouchableOpacity 
+                        style={styles.buttonConclude}
+                        onPress={() => navigation.navigate('Screens')}>
+                        <Text style={styles.buttonConcludeText}>Concluir</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    
+    );
 }
 
-const styles = StyleSheet. create({
-    container:{
+const styles = StyleSheet.create({
+    container: {
         flex:2,
-        backgroundColor: "#05022E"
+        backgroundColor: "#619dfd"
     },
 
     scroll:{
-        alignContent: 'center',
+        alignContent: 'center'
     },
 
-    containerButton:{
+    containerButton: {
         flex:1,
-        backgroundColor:"#05022E",
+        backgroundColor:"#619dfd"
     },
 
-    containerImage:{
+    containerImage: {
         flexWrap:'wrap',
         flexDirection:'row',
-        margin: 12,   
+        marginRight: 12,
+        marginLeft: 12,
+        alignItems: 'center',
+        justifyContent:'center',
+        marginTop: 1   
     },
 
-    image:{
-        width:120,
-        height: 120,  
-        borderWidth:1, 
-        borderColor:'#d6e9ff',
+    image: {
+        position:'relative',
+        resizeMode:'cover',
+        width: 300,
+        height: 100,  
+        borderWidth:2, 
+        borderColor: '#d6e9ff' ,
         borderRadius:30,
         marginHorizontal: 24,
-        marginTop: 20,
+        marginTop: 15
     },
 
-    textImage:{
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#d6e9ff',
-        marginTop: '2%',
-        marginStart: 30,
+    iconCheck: {
+        alignItems: 'center',
+        justifyContent:'center'
     },
 
-    text:{
+    text: {
         fontSize: 24,
         fontWeight: 'bold',
         color: '#d6e9ff',
         marginTop: '10%',
-        marginBottom: '5%',
+        marginBottom: '2%',
         paddingStart: '5%',
         paddingEnd:'5%',
+        alignItems:'center',
+        justifyContent:'center' 
     },
 
-    buttonConclude:{
-        backgroundColor:"#619dfd",
+    buttonConclude: {
+        backgroundColor:"#d6e9ff",
         width: '70%',
         alignSelf:'center',
         borderRadius: 50,
@@ -138,13 +138,13 @@ const styles = StyleSheet. create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom:30,
-        marginTop:10,
+        marginTop:15
     },
 
-    buttonConcludeText:{
-        color: "#d6e9ff",
+    buttonConcludeText: {
+        color: "#619dfd",
         fontSize: 18,
-        fontWeight: 'bold',  
+        fontWeight: 'bold'  
     },
 });
 

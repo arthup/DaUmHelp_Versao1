@@ -3,11 +3,11 @@ import SignIn from '../pages/SignIn';
 import Welcome from '../pages/Welcome';
 import LogIn from '../pages/LogIn';
 import Selection from '../pages/Selection';
-import Home from '../pages/Home';
+import Screens from '../pages/Screens';
+import React from 'react';
 
 
 const Stack = createNativeStackNavigator();
-
 export default function Routes(){
     return(
         <Stack.Navigator>
@@ -36,10 +36,12 @@ export default function Routes(){
             />
 
             <Stack.Screen
-                name="Home"
-                component={Home}
+                name="Screens"
+                component={Screens}
                 options={{ headerShown: false}}
             />
         </Stack.Navigator>
-    )
+
+        
+    );
 }
