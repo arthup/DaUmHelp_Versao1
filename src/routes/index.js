@@ -6,11 +6,13 @@ import Selection from '../pages/Selection';
 import Screens from '../pages/Screens';
 import React from 'react';
 
-
 const Stack = createNativeStackNavigator();
 export default function Routes(){
+
+
     return(
         <Stack.Navigator>
+          
             <Stack.Screen
                 name="Welcome"
                 component={Welcome}
