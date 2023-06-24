@@ -119,7 +119,7 @@ const SignIn = () => {
                 >
                     <Text style={styles.buttonLoginText}>Já tenho uma conta</Text>
                 </TouchableOpacity>
-    
+                
             </Animatable.View>
         </View>
     )
@@ -154,14 +154,6 @@ const styles = StyleSheet.create({
         paddingEnd: '5%',
     },
 
-    // inputName:{
-    //     borderBottomWidth: 1,
-    //     height: 40,
-    //     marginBottom: 12,
-    //     fontSize: 16,
-       
-    // },
-
     input:{
         borderBottomWidth: 1,
         height: 40,
@@ -184,7 +176,7 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         justifyContent: 'center',
         alignItems: 'center',
-        bottom:'-32%'
+        bottom:'-33%',
     },
 
     buttonRegisterText:{
@@ -196,7 +188,7 @@ const styles = StyleSheet.create({
     buttonLogin:{
         marginTop: 14,
         alignSelf: 'center',
-        bottom:'-32%'
+        bottom:'-33%'
     },
 
     buttonLoginText:{

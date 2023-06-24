@@ -65,8 +65,9 @@ export default function LoginIn(){
                     ></TextInput>
 
                     <TouchableOpacity  onPress={() => setpassHide(!passHide)}>
-                        <FontAwesome5 style={styles.icon} name={passHide ? 'eye' : 'eye-slash'} size={24} color="black"/>
+                        <FontAwesome5 style={styles.icon} name={passHide ? 'eye' : 'eye-slash'} size={20} color="black"/>
                     </TouchableOpacity> 
+                
                     </View>
                 { email === "" || password === ""
                     ? 
@@ -129,6 +130,16 @@ const styles = StyleSheet.create({
         height: 40,
         marginBottom: 12,
         fontSize: 16,
+        borderWidth: 1,
+    },
+
+    input2:{
+        borderBottomWidth: 1,
+        height: 40,
+        marginBottom: 12,
+        fontSize: 16,
+        borderWidth: 1,
+        position: 'absolute'
     },
 
     buttonEnter:{
@@ -172,9 +183,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 12,
         height: 40,
-        position:'relative'
+
      },
      icon: {
+
+    marginLeft:'80%',
+    position:'relative'
     
      },
 })
