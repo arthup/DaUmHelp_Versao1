@@ -1,39 +1,31 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, StatusBar, Button, Image, Alert  } from 'react-native';
 //import Textarea from 'react-native-textarea';
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker'
 import { storage } from '../../../Services/firebaseConfig';
-import {ref, uploadBytes, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
+import {ref, uploadBytes, uploadBytesResumable, getDownloadURL, } from 'firebase/storage';
+import firebase from 'firebase/app';
+import 'firebase/storage';
 
 const NewPost = () => {
 
   const [image, setImage] = useState(null)
   const [uploading, setUploading] = useState(false) 
-  const submitData =() =>{
-  //   const metadata = {
-  //     contentType: 'image/jpeg',
-  //   };
-  //   const storageRef = ref(storage, '/'+image);
-
-  //   uploadBytes(storageRef, image, metadata).then((snapshot) =>{
-  //     console.log('up');
-  //   })
-  //   .catch((error)=>{
-  //     console.log(error);
-  //   })
- 
   
+  const submitData =() =>{
+
   // Create the file metadata
-  /** @type {any} */
+/** @type {any} */
   const metadata = {
     contentType: 'image/jpeg'
   };
   
   // Upload file and metadata to the object 'images/mountains.jpg'
-  const storageRef = ref(storage, 'images/' + image);
-  const uploadTask = uploadBytesResumable(storageRef, 'image', metadata);
+  const storageRef = ref(storage, 'image/' + Date.now());
+  const uploadTask = uploadBytesResumable(storageRef, image, metadata);
   
-  // Listen for state changes, errors, and completion of the upload.
+
+  // Listen for state changes, errors, and completion of the upload
   uploadTask.on('state_changed',
     (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -68,9 +60,29 @@ const NewPost = () => {
     }, 
     () => {
       // Upload completed successfully, now we can get the download URL
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
-      });
+      // getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      //   console.log('File available at', downloadURL);
+      // });
+      getDownloadURL(ref(storage, image))
+  .then((url) => {
+    // `url` is the download URL for 'images/stars.jpg'
+
+    // This can be downloaded directly:
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
+    };
+    xhr.open('GET', url);
+    xhr.send();
+
+    // Or inserted into an <img> element
+    const img = image;
+    img.setAttribute('source', url);
+  })
+  .catch((error) => {
+    // Handle any errors
+  });
     }
   );
    }
@@ -78,36 +90,16 @@ const NewPost = () => {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: "Images",
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4,3],
         quality: 1
     });
-    const source = {uri: result.assets[0].uri}
+    const source = result.assets[0].uri
     console.log(source)
     setImage(source)
-    
-
 }; 
 
-
-// const uploadImage = async () => {
-//   setUploading(true)
-//   const response = await fetch(image.uri);
-//   const blob = response.blob();
-//   const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
-//   storageRef = firebase.storage().ref().child(filename).put(blob);
-//   try {
-//       await ref;
-//   } catch (e){
-//       console.log(e)
-//   }
-//   setUploading(false)
-//   Alert.alert(
-//       'Photo uploaded!'
-//   );
-//   setImage(null);
-// } 
 
   return (
     
@@ -129,7 +121,7 @@ const NewPost = () => {
     <Text style={styles.btnText}>Pick an Image</Text> 
   </TouchableOpacity>
   <View style={styles.imageContainer}>
-   {image && <Image source={{uri: image.uri}} style={{width: 300, height: 300}}/>} 
+   {image && <Image source={{uri:image.uri}} style={{width: 300, height: 300}}/>} 
   <TouchableOpacity onPress={submitData}>
       <Text style={styles.btnText}>Upload Image</Text> 
   </TouchableOpacity> 

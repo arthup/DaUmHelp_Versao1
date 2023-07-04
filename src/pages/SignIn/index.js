@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {auth} from '../../Services/firebaseConfig';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 const SignIn = () => {
@@ -13,6 +14,8 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const [passHide, setpassHide] = useState(true);
+    const [passHide2, setpassHide2] = useState(true);
 
     const handleSignIn = () =>{
         createUserWithEmailAndPassword(auth, email, password)
@@ -35,6 +38,7 @@ const SignIn = () => {
 
 
     return(
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
                 <Text style={styles.message}>Crie sua conta!</Text>
@@ -42,86 +46,86 @@ const SignIn = () => {
 
             <Animatable.View animation="fadeInUp" style={styles.containerForm}>
                 
-                {error == true && name===""
-                ? <Text style={styles.warningMessage}>
-                        Campo Obrigatório*
-                  </Text>    
-                : <Text style={styles.warningMessage}/>
-                }
-                <TextInput
-                    placeholder='Nome Completo '
-                    style={styles.input}
-                    value={name}
-                    onChangeText={(text) => setName(text) && (error == false && name ==="")}
-                />
+                    {error == true && name==="" ? <Text style={styles.warningMessage}> Campo Obrigatório* </Text> : <Text style={styles.warningMessage}/>}
+                    <TextInput
+                        placeholder='Nome Completo '
+                        style={styles.input}
+                        value={name}
+                        onChangeText={(text) => setName(text) && (error == false && name ==="")}
+                    />
+            
+                    {error == true && email==="" ? <Text style={styles.warningMessage}> Campo Obrigatório* </Text> : <Text style={styles.warningMessage}/>}
+                    <TextInput
+                        placeholder='Email'
+                        style={styles.input}
+                        value={email}
+                        onChangeText={(text) => setEmail(text) && (error == false && email ==="")}
+                    />
+             
 
-                {error == true && email===""
-                ? <Text style={styles.warningMessage}>
-                    Campo Obrigatório*
-                  </Text>    
-                : <Text style={styles.warningMessage}/>
-                }
-                <TextInput
-                    placeholder='Email'
-                    style={styles.input}
-                    value={email}
-                    onChangeText={(text) => setEmail(text) && (error == false && email ==="")}
-                />
+                {error == true && password==="" ? <Text style={styles.warningMessage}> Campo Obrigatório* </Text> : <Text style={styles.warningMessage}/>}
+                <View style={styles.textInputPassword}>
+                    <TextInput
+                        placeholder='Senha'
+                        style={styles.inputPassword}
+                        secureTextEntry={passHide}
+                        value={password}
+                        onChangeText={(text) => setPassword(text) && (error == false && password ==="")}
+                    />
+                    
+                    <TouchableOpacity  onPress={() => setpassHide(!passHide)}>
+                        <FontAwesome5 name={passHide ? 'eye' : 'eye-slash'} size={20} color="black"/>
+                    </TouchableOpacity> 
+                </View>
 
-                {error == true && password===""
-                ? <Text style={styles.warningMessage}>
-                    Campo Obrigatório*
-                  </Text>    
-                : <Text style={styles.warningMessage}/>
-                }
-                <TextInput
-                    placeholder='Senha'
-                    style={styles.input}
-                    secureTextEntry
-                    value={password}
-                    onChangeText={(text) => setPassword(text) && (error == false && password ==="")}
-                />
+                <View> 
+                    <Text>{}</Text>   
+                </View>
 
-                {error == true && password_confirm==="" || password !== password_confirm
-                ? <Text style={styles.warningMessage}>
-                    Senhas Diferentes
-                  </Text>    
-                : <Text style={styles.warningMessage}/>
-                }
-                <TextInput
-                    placeholder='Confirmar Senha'
-                    style={styles.input}
-                    value={password_confirm}
-                    onChangeText={(text) => setPassword_confirm(text) && (error == false && password_confirm ==="" )}
+                {error == true && password_confirm==="" || password !== password_confirm ? <Text style={styles.warningMessage}> Senhas Diferentes </Text> : <Text style={styles.warningMessage}/>}
+                <View style={styles.textInputPassword}>
+                    <TextInput
+                        placeholder='Confirmar Senha'
+                        style={styles.inputPassword}
+                        value={password_confirm}
+                        secureTextEntry={passHide2}
+                        onChangeText={(text) => setPassword_confirm(text) && (error == false && password_confirm ==="" )}
 
-                />
-                  
-                { name === "" || email === "" || password === "" || password_confirm === "" || password !== password_confirm
-                ? 
-                <TouchableOpacity 
-                    style={styles.buttonRegister}
-                    onPress={() => (setError(true))}
-                >
-                    <Text style={styles.buttonRegisterText}>Cadastrar</Text>
-                  </TouchableOpacity>
-                : 
-                <TouchableOpacity 
-                    style={styles.buttonRegister}
-                    onPress={handleSignIn} 
-                >
-                    <Text style={styles.buttonRegisterText}>Cadastrar</Text>
-                  </TouchableOpacity>
-                }
+                    />
+
+                    <TouchableOpacity  onPress={() => setpassHide2(!passHide2)}>
+                        <FontAwesome5 name={passHide2 ? 'eye' : 'eye-slash'} size={20} color="black"/>
+                    </TouchableOpacity> 
+                </View>
+
                 
-                <TouchableOpacity 
-                    style={styles.buttonLogin}
-                    onPress={() => navigation.navigate('LogIn')}
-                >
-                    <Text style={styles.buttonLoginText}>Já tenho uma conta</Text>
-                </TouchableOpacity>
+                    { name === "" || email === "" || password === "" || password_confirm === "" || password !== password_confirm
+                    ? 
+                    <TouchableOpacity 
+                        style={styles.buttonRegister}
+                        onPress={() => (setError(true))}
+                    >
+                        <Text style={styles.buttonRegisterText}>Cadastrar</Text>
+                    </TouchableOpacity>
+                    : 
+                    <TouchableOpacity 
+                        style={styles.buttonRegister}
+                        onPress={handleSignIn} 
+                    >
+                        <Text style={styles.buttonRegisterText}>Cadastrar</Text>
+                    </TouchableOpacity>
+                    }
+                
+                    <TouchableOpacity 
+                        style={styles.buttonLogin}
+                        onPress={() => navigation.navigate('LogIn')}
+                    >
+                        <Text style={styles.buttonLoginText}>Já tenho uma conta</Text>
+                    </TouchableOpacity>
                 
             </Animatable.View>
         </View>
+        </TouchableWithoutFeedback>
     )
 };
 
@@ -157,7 +161,7 @@ const styles = StyleSheet.create({
     input:{
         borderBottomWidth: 1,
         height: 40,
-        marginBottom: 12,
+        marginBottom: 8,
         fontSize: 16,
     },
 
@@ -195,5 +199,23 @@ const styles = StyleSheet.create({
     color: "#A2ACC3",
     fontSize: 15,
     fontWeight: 'bold',
-    }
+    },
+
+    textInputPassword: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop:12
+        
+     },
+
+     inputPassword:{
+        borderBottomWidth: 1,
+        height: 40,
+        marginBottom: 8,
+        fontSize: 16,
+        borderWidth: 0,
+        position: 'absolute',
+        width: "100%",
+    },
 });

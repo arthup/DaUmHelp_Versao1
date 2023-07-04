@@ -40,32 +40,26 @@ export default function LoginIn(){
 
                 <Animatable.View animation="fadeInUp" style={styles.containerForm}>
 
-                {error == true && email===""
-                    ? <Text style={styles.warningMessage}>Campo Obrigatório*</Text>    
-                    : <Text style={styles.warningMessage}/>
-                }
+                {error == true && email==="" ? <Text style={styles.warningMessage}>Campo Obrigatório*</Text> : <Text style={styles.warningMessage}/>}
                     <TextInput
                         placeholder='Email'
-                        style={styles.input}
+                        style={styles.inputEmail}
                         value={email}
                         onChangeText={(text) => setEmail(text) && (error == false && email ==="")}
                     />
 
-                {error == true && password===""
-                    ? <Text style={styles.warningMessage}>Campo Obrigatório*</Text>    
-                    : <Text style={styles.warningMessage}/>
-                }
-                <View style={styles.inputIcon}>
+                {error == true && password==="" ? <Text style={styles.warningMessage}>Campo Obrigatório*</Text> : <Text style={styles.warningMessage}/>}
+                <View style={styles.textInputPassword}>
                     <TextInput
                         placeholder='Senha'
-                        style={styles.input}
+                        style={styles.inputPassword}
                         value={password}
                         onChangeText={(text) => setPassword(text) && (error == false && password ==="")}
                         secureTextEntry={passHide}
                     ></TextInput>
 
                     <TouchableOpacity  onPress={() => setpassHide(!passHide)}>
-                        <FontAwesome5 style={styles.icon} name={passHide ? 'eye' : 'eye-slash'} size={20} color="black"/>
+                        <FontAwesome5 name={passHide ? 'eye' : 'eye-slash'} size={20} color="#A2ACC3"/>
                     </TouchableOpacity> 
                 
                     </View>
@@ -125,21 +119,21 @@ const styles = StyleSheet.create({
         paddingEnd: '5%',
     },
 
-    input:{
+    inputEmail:{
         borderBottomWidth: 1,
         height: 40,
         marginBottom: 12,
         fontSize: 16,
-        borderWidth: 1,
     },
 
-    input2:{
+    inputPassword:{
         borderBottomWidth: 1,
         height: 40,
         marginBottom: 12,
         fontSize: 16,
-        borderWidth: 1,
-        position: 'absolute'
+        borderWidth: 0,
+        position: 'absolute',
+        width: "100%"
     },
 
     buttonEnter:{
@@ -177,18 +171,9 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
     },
 
-     inputIcon: {
-        flexDirection: 'row',
+    textInputPassword: {
+        flexDirection: 'row-reverse',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 12,
-        height: 40,
-
-     },
-     icon: {
-
-    marginLeft:'80%',
-    position:'relative'
-    
+        alignItems: 'center'
      },
 })
